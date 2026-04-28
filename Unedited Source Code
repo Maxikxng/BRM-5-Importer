@@ -5,8 +5,6 @@ import keyboard
 import os
 import tkinter
 from tkinter import filedialog
-from tkinter import simpledialog
-from tkinter import messagebox
 import time
 
 
@@ -19,9 +17,13 @@ made by Maxikxng3""")
 
 #define variables
 ImportFile = filedialog.askopenfilename(title="Select CommandFile to Import.", type=["*.txt"])              #Set Cmd File
-BRMWorld = simpledialog.askstring(title="World Select", prompt="What World is the Trigger in?")             #Set BRM5 World
-BRMTriggerName = simpledialog.askstring(title="Trigger Name Select", prompt="What is the Triggers Name?")   #Set BRM5 Trigger Name
-BRMCreateNew = messagebox.askyesno(title="New or Existing", message="Create a New Trigger?")                #Select if Script Creates a new Trigger
+BRMWorld = input("What World is the Trigger in?: ")                                                         #Set BRM5 World
+BRMTriggerName = input("What is the Triggers Name?: ")                                                      #Set BRM5 Trigger Name
+temp = input("Create a New Trigger? Y/N: ")                                                                 #Select if Script Creates a new Trigger
+if temp == "Y":
+    BRMCreateNew = True
+else:
+    BRMCreateNew = False
 
 IFilePath = os.path.dirname(ImportFile)                                                                     #get the Path of the Imported Cmd File
 os.chdir(IFilePath)                                                                                         #Set working Directory to path of Imported Cmd File
