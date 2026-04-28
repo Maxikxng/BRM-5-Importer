@@ -1,0 +1,54 @@
+#Made by Maxikxng3
+#import Extensions
+import pyautogui
+import keyboard
+import os
+import tkinter
+from tkinter import filedialog
+from tkinter import simpledialog
+from tkinter import messagebox
+import time
+
+
+
+#Startup Print
+print("""BRM5 Importer
+made by Maxikxng3""")
+
+
+
+#define variables
+ImportFile = filedialog.askopenfilename(title="Select CommandFile to Import.", type=["*.txt"])              #Set Cmd File
+BRMWorld = simpledialog.askstring(title="World Select", prompt="What World is the Trigger in?")             #Set BRM5 World
+BRMTriggerName = simpledialog.askstring(title="Trigger Name Select", prompt="What is the Triggers Name?")   #Set BRM5 Trigger Name
+BRMCreateNew = messagebox.askyesno(title="New or Existing", message="Create a New Trigger?")                #Select if Script Creates a new Trigger
+
+IFilePath = os.path.dirname(ImportFile)                                                                     #get the Path of the Imported Cmd File
+os.chdir(IFilePath)                                                                                         #Set working Directory to path of Imported Cmd File
+
+LinesDone = 0
+
+#start of Script
+print("please select Roblox and move Cursor over Console. Press ALT to Continue")                           #instruct User
+keyboard.wait("alt")                                                                                        #wait for Confirmation
+
+with open(ImportFile, "r") as IF:                                                                           #read Imported Cmd File
+    if BRMCreateNew == True:                                                                                #if BRMCreateNew is True create new trigger with name
+        print("Creating Trigger")
+        pyautogui.leftClick()
+        cmdline = f"trigger create {BRMWorld} {BRMTriggerName}"
+        pyautogui.write(message= cmdline, interval= 0)
+        keyboard.press_and_release("Enter")
+        print("Command Sent: ", cmdline)                                                                    #create new trigger with name DONE
+    time.sleep(1)                                                                                           #small delay for create new trigger with name to finish
+    for line in IF:                                                                                         #loop to import every Line of Imported Cmd File
+        print("Importing:", line)
+        cmdline = f"trigger executable {BRMWorld} {BRMTriggerName} {(LinesDone + 1)} {line}"
+        pyautogui.leftClick()
+        pyautogui.write(message= cmdline, interval= 0.001)
+        keyboard.press_and_release("Enter")
+        LinesDone += 1
+        print("Command Sent:", cmdline)                                                                     #loop to import every Line of Imported Cmd File DONE
+print("Importing Commands Complete")                                                                        #notify user of Completion
+print("press any button to close window")
+keyboard.read_key()
