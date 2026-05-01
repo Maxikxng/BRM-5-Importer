@@ -1,7 +1,8 @@
-#Made by Maxikxng3
+#Made by Maxikxng3              V1.2
 #import Extensions
 import pyautogui
 import keyboard
+import pyperclip
 import os
 import tkinter
 from tkinter import filedialog
@@ -16,20 +17,30 @@ made by Maxikxng3""")
 
 
 #define variables
-ImportFile = filedialog.askopenfilename(title="Select CommandFile to Import.", type=["*.txt"])              #Set Cmd File
-IFilePath = os.path.dirname(ImportFile)                                                                     #get the Path of the Imported Cmd File
+ImportFilePathN = filedialog.askopenfilename(title="Select CommandFile to Import.", type=["*.txt"])         #Set Cmd File
+IFilePath = os.path.dirname(ImportFilePathN)                                                                #get the Path of the Imported Cmd File
 os.chdir(IFilePath)                                                                                         #Set working Directory to path of Imported Cmd File
-ImportFile = open(ImportFile, "r")                                                                          #open Import File
+ImportFile = open(ImportFilePathN, "r")                                                                     #open Import File
+
 
 IFileLine1 = ImportFile.readline()                                                                          #read first line of Import File
 doRawCmdImport = False
 BRMCreateNew = False
+LinesDone = 0
 
 if "@RAW" in IFileLine1:                                                                                     #check if Direct Command Import Keyword is Present DONE
     doRawCmdImport = True
     print("Direct Command Import Keyword present")      
 else:
     print("")                                                                                         
+
+
+if IFileLine1 == False:
+    ImportFile.close()                                                                                          #Close File to Reset
+    ImportFile = open(ImportFilePathN, "r")                                                                     #open again from Line 0
+else:
+    print("")
+
 
 if doRawCmdImport == False:
     BRMWorld = input("What World is the Trigger in?: ")                                                     #Set BRM5 World
@@ -42,7 +53,7 @@ if doRawCmdImport == False:
 else:
    print("")
 
-LinesDone = 0                                                                                               #set Variable
+
 
 #start of Script
 print("please select Roblox and move Cursor over Console. Press ALT to Continue")                           #instruct User
@@ -53,21 +64,27 @@ with ImportFile as IF:                                                          
         print("Creating Trigger")
         pyautogui.leftClick()
         cmdline = f"trigger create {BRMWorld} {BRMTriggerName}"
-        pyautogui.write(message= cmdline, interval= 0)
+        pyperclip.copy(cmdline)
+        keyboard.press_and_release("ctrl + v")
+        time.sleep(0.1)
         keyboard.press_and_release("Enter")
         print("Command Sent: ", cmdline)                                                                    #create new trigger with name DONE
     else:                                                                                                   #small delay for create new trigger with name to finish
-        for line in IF:                                                                                     #loop to import every Line of Imported Cmd File
-            print("Importing:", line)
-            if doRawCmdImport == False:
-                cmdline = f"trigger executable {BRMWorld} {BRMTriggerName} {(LinesDone + 1)} {line}"
-            else:
-                cmdline = line
-            pyautogui.leftClick()
-            pyautogui.write(message= cmdline, interval= 0.001)
-            keyboard.press_and_release("Enter")
-            LinesDone += 1
-            print("Command Sent:", cmdline)                                                                 #loop to import every Line of Imported Cmd File DONE
+        print("")
+    time.sleep(0.5)
+    for line in IF:                                                                                     #loop to import every Line of Imported Cmd File
+        print("Importing:", line)
+        if doRawCmdImport == False:
+            cmdline = f"trigger executable {BRMWorld} {BRMTriggerName} {(LinesDone + 1)} {line}"
+        else:
+            cmdline = line
+        pyperclip.copy(cmdline)
+        pyautogui.leftClick()
+        keyboard.press_and_release("ctrl + v")
+        time.sleep(0.1)
+        keyboard.press_and_release("Enter")
+        LinesDone += 1
+        print("Command Sent:", cmdline)                                                                 #loop to import every Line of Imported Cmd File DONE
 ImportFile.close()                                                                                          #close File
 print("Importing Commands Complete")                                                                        #notify user of Completion
 print("press any button to close window")
