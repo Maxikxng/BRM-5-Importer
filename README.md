@@ -1,4 +1,7 @@
 # BRM-5-Importer
+
+!ON HOLD AND SLIGHTLY BROKEN!
+
 Import a list of commands from .txt files into the Realtime Game Editor of Blackhawk Rescue Mission 5 automatically.
 
 Usage explained [here](https://github.com/Maxikxng/BRM-5-Importer/blob/main/Instructions.md).
